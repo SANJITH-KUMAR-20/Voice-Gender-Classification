@@ -33,7 +33,7 @@ import click
 @click.option(
     "--savepath",
     "-s",
-    default = "./recent_model.pt",
+    default = "saved_models/recent_model.pt",
     help = "path to save the checkpoint or trained weights"
 )
 def trainmod(datasetrootdir : str, lr : float, epochs: int, batchsize : int,
