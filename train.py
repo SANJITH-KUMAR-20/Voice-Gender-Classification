@@ -30,9 +30,21 @@ import click
     default = 5,
     help = "number of epochs to train the model"
 )
-def trainmod(datasetrootdir : str, lr : float, epochs: int, batchsize : int):
+@click.option(
+    "--savepath",
+    "-s",
+    default = "./recent_model.pt",
+    help = "path to save the checkpoint or trained weights"
+)
+def trainmod(datasetrootdir : str, lr : float, epochs: int, batchsize : int,
+             savepath : str):
     dataset = DataLoader(datasetrootdir)
     dataloader = torch.utils.data.DataLoader(dataset, shuffle = True, batch_size = batchsize)
     model = AudioClassifier()
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    model = train_model(model, dataloader, criterion, optimizer, epochs)
+    torch.save({
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict()
+            }, savepath)
