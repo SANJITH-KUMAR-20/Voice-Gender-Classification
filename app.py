@@ -6,6 +6,7 @@ from predict import *
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "http://localhost:8000",
     "http://localhost:3000",
     "null"
 ]
@@ -19,7 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/get_result")
-async def get_result(file : UploadFile = File(...)):
-    gender = predict("saved_model", file)
+@app.post("/get_result")
+async def get_result(file : UploadFile = File()):
+    with open(file.filename, "wb") as buffer:
+        buffer.write(await file.read())
+    # gender = predict("", file)
+
     return Response(content=gender,media_type="application/json")

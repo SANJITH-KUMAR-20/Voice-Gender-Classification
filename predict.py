@@ -7,8 +7,11 @@ import torch
 
 def predict(model_path:str, data) -> str:
     model = AudioClassifier()
-    checkpoint = torch.load(model_path)
-    model.load_state_dict(checkpoint['model_state_dict'])
+    try:
+        checkpoint = torch.load(model_path)
+        model.load_state_dict(checkpoint['model_state_dict'])
+    except:
+        pass
     model.eval()
     aud = process_audio(data)
     pred = model(aud.unsqueeze(0))
