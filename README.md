@@ -22,6 +22,7 @@ before that put the model in the main directory
 
 ` streamlit run page.py `
 
+(Note Do not forget to install torchaudio backend)
 
 
 
